@@ -4,6 +4,8 @@ import re
 
 def scrapeTOI(newslist):
 
+    data = []
+
     for link in newslist.values():
         link = re.sub(r'[{\'\'}]', '', link)
 
@@ -21,9 +23,14 @@ def scrapeTOI(newslist):
             text_array = [segment.strip() for segment in text_inside_div.split('.') if segment.strip()]
 
             text_array = ''.join(text_array)
-            print(text_array)
+            # print(text_array)
+            data.append(text_array)
+
+    return data
 
 def scrapeHindu(newslist):
+
+    data = []
 
     for link in newslist.values():
         link = re.sub(r'[{\'\'}]', '', link)
@@ -45,7 +52,10 @@ def scrapeHindu(newslist):
                 text_array.append(s.text)
 
             text_array = ''.join(text_array)
-            print(text_array)
+            # print(text_array)
+            data.append(text_array)
 
         else:
             print('couldnt fetch')
+            
+    return data

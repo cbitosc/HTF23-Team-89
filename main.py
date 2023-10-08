@@ -22,37 +22,42 @@ class LocalFileAdapter(requests.adapters.HTTPAdapter):
 
         return self.build_response_from_file(request)
 
-session = HTMLSession()
-session.mount('file://', LocalFileAdapter())
+def getTOI():
+    session = HTMLSession()
+    session.mount('file://', LocalFileAdapter())
 
-rt = session.get('file://rssPages\TOI.html')
-articles = rt.html.find('div div')
+    rt = session.get('file://rssPages\TOI.html')
+    articles = rt.html.find('div div.entry-title-wrapper-dummy')
 
-newslist = {}
+    newslist = {}
 
-for item in articles:
-    try:
-        newsitem = item.find('a', first=True)
-        title = newsitem.text
-        link = str(item.absolute_links)
-        newslist[title] = link
-    except:
-       pass
+    for item in articles:
+        try:
+            newsitem = item.find('a', first=True)
+            title = newsitem.text
+            link = str(item.absolute_links)
+            newslist[title] = link
+        except:
+            pass
 
-scraper.scrapeTOI(newslist)
+    return scraper.scrapeTOI(newslist)
 
-rh = session.get('file://rssPages\Hindu.html')
-articles = rh.html.find('div div.entry-title-wrapper-dummy')
+def getHindu():
+    session = HTMLSession()
+    session.mount('file://', LocalFileAdapter())
 
-newslist = {}
+    rh = session.get('file://rssPages\Hindu.html')
+    articles = rh.html.find('div div.entry-title-wrapper-dummy')
 
-for item in articles:
-    try:
-        newsitem = item.find('a', first=True)
-        title = newsitem.text
-        link = str(item.absolute_links)
-        newslist[title] = link
-    except:
-       pass
+    newslist = {}
 
-scraper.scrapeHindu(newslist)
+    for item in articles:
+        try:
+            newsitem = item.find('a', first=True)
+            title = newsitem.text
+            link = str(item.absolute_links)
+            newslist[title] = link
+        except:
+            pass
+
+    return scraper.scrapeHindu(newslist)
