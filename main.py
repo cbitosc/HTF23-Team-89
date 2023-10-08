@@ -61,3 +61,63 @@ def getHindu():
             pass
 
     return scraper.scrapeHindu(newslist)
+
+def getNDTV():
+    session = HTMLSession()
+    session.mount('file://', LocalFileAdapter())
+
+    rh = session.get('file://rssPages\\ndtv.html')
+    articles = rh.html.find('div div.entry-title-wrapper-dummy')
+
+    newslist = {}
+
+    for item in articles:
+        try:
+            newsitem = item.find('a', first=True)
+            title = newsitem.text
+            link = str(item.absolute_links)
+            newslist[title] = link
+        except:
+            pass
+
+    return scraper.scrapeNDTV(newslist)
+
+def getOnion():
+    session = HTMLSession()
+    session.mount('file://', LocalFileAdapter())
+
+    rh = session.get('file://rssPages\\onion.html')
+    articles = rh.html.find('div div.entry-title-wrapper-dummy')
+
+    newslist = {}
+
+    for item in articles:
+        try:
+            newsitem = item.find('a', first=True)
+            title = newsitem.text
+            link = str(item.absolute_links)
+            newslist[title] = link
+        except:
+            pass
+
+    return scraper.scrapeOnion(newslist)
+
+def getPunk():
+    session = HTMLSession()
+    session.mount('file://', LocalFileAdapter())
+
+    rh = session.get('file://rssPages\\punk.html')
+    articles = rh.html.find('div div.entry-title-wrapper-dummy')
+
+    newslist = {}
+
+    for item in articles:
+        try:
+            newsitem = item.find('a', first=True)
+            title = newsitem.text
+            link = str(item.absolute_links)
+            newslist[title] = link
+        except:
+            pass
+
+    return scraper.scrapePunk(newslist)
